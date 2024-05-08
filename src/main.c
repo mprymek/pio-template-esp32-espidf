@@ -11,9 +11,14 @@
 #include "rom/ets_sys.h"
 
 #include "aux.h"
+#include "ota.h"
 #include "secrets.h"
 #include "status.h"
 #include "wifi.h"
+
+#if defined(WIFI_AP_SSID) || defined(WIFI_STA_SSID)
+#define WITH_NET
+#endif
 
 static const char *APP_NAME = "Esp32 Template App";
 static const char *APP_VERSION = "0.0.1";
@@ -44,7 +49,7 @@ static esp_err_t boot() {
    status_set(STATUS_BOOTING);
 
    // Init modules.
-#if defined(WIFI_AP_SSID) || defined(WIFI_STA_SSID)
+#if defined(WITH_NET)
    BOOT_LOG("init: NVS flash", nvs_init());
 #endif
 #if defined(WIFI_AP_SSID)
@@ -52,12 +57,18 @@ static esp_err_t boot() {
 #elif defined(WIFI_STA_SSID)
    BOOT_LOG_BLOCK("init: wifi STA", wifi_init_sta());
 #endif
+#if defined(WITH_NET)
+   BOOT_LOG_BLOCK("init: OTA", ota_init());
+#endif
 
    // Start modules.
 #if defined(WIFI_AP_SSID)
    BOOT_LOG_BLOCK("start: wifi AP", wifi_start_ap());
 #elif defined(WIFI_STA_SSID)
    BOOT_LOG_BLOCK("start: wifi STA", wifi_start_sta());
+#endif
+#if defined(WITH_NET)
+   BOOT_LOG_BLOCK("start: OTA", ota_start(status_start(tskIDLE_PRIORITY + 1)));
 #endif
 
    esp_log_write(ESP_LOG_INFO, TAG, LINE);

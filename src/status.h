@@ -15,6 +15,7 @@ void status_clear(uint32_t flag);
 #define STATUS_ERROR 1
 #define STATUS_BOOTING (((uint32_t)1) << 1)
 #define STATUS_NET_DISCONNECTED (((uint32_t)1) << 2)
+#define STATUS_UPGRADING (((uint32_t)1) << 3)
 
 #ifdef __cplusplus
 }

@@ -53,3 +53,10 @@
                     LOG_COLOR_I "I (%lu) \t\t\t[OK]\n" LOG_RESET_COLOR,        \
                     esp_log_timestamp());                                      \
    } while (0)
+
+#define MIN(a, b)                                                              \
+   ({                                                                          \
+      __typeof__(a) _a = (a);                                                  \
+      __typeof__(b) _b = (b);                                                  \
+      _a < _b ? _a : _b;                                                       \
+   })

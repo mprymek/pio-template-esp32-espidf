@@ -74,6 +74,8 @@ static void status_task(void *pvParameters) {
          set_color(PINK);
       } else if (status & STATUS_BOOTING) {
          set_color(GREEN);
+      } else if (status & STATUS_UPGRADING) {
+         set_color(BLUE);
       }
       leds.show();
       leds.wait();

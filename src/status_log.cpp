@@ -38,6 +38,9 @@ static void log_status() {
    if (status & STATUS_NET_DISCONNECTED) {
       esp_log_write(ESP_LOG_INFO, TAG, " NET_DISCON");
    }
+   if (status & STATUS_UPGRADING) {
+      esp_log_write(ESP_LOG_INFO, TAG, " UPGRADING");
+   }
    esp_log_write(ESP_LOG_INFO, TAG, "\n");
 }
 
